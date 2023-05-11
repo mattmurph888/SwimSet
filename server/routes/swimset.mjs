@@ -1,14 +1,16 @@
-import express from "express";
-import db from "../db/conn.mjs";
-import { ObjectId } from "mongodb";
+import express from 'express';
+import Set from '../models/Set.mjs';
 
 const router = express.Router();
 
-// This section will help you get a list of all the records.
-router.get("/", async (req, res) => {
-    let collection = await db.collection("records");
-    let results = await collection.find({}).toArray();
-    res.send(results).status(200);
-  });
+// This section will help you get a list of all the sets.
+router.get('/', async (req, res) => {
+	try {
+	  const sets = await Set.find({});
+    res.send(sets);
+	} catch (err) {
+	  res.send(err);
+	}
+});
 
 export default router;
