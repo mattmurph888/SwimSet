@@ -1,14 +1,21 @@
 import mongoose from 'mongoose';
-const { Schema, model } = mongoose;
+const { Schema, SchemaTypes, model } = mongoose;
 
 const setSchema = new Schema({
 	title: {
 		type: String,
 		required: true,
 	},
+	subsets: [
+		{
+			type: SchemaTypes.ObjectId,
+			ref: 'Round',
+			required: true,
+		},
+	],
 	description: {
 		type: String,
-		required: true,
+		required: false,
 	},
 });
 

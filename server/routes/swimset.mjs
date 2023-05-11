@@ -1,5 +1,8 @@
 import express from 'express';
 import Set from '../models/Set.mjs';
+import Subset from '../models/Subset.mjs';
+import Round from '../models/Round.mjs';
+import Rep from '../models/Rep.mjs';
 
 const router = express.Router();
 
