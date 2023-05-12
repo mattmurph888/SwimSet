@@ -1,8 +1,5 @@
 import express, { request } from 'express';
 import Workout from '../models/Workout.mjs';
-import Subset from '../models/Subset.mjs';
-import Round from '../models/Round.mjs';
-import Rep from '../models/Rep.mjs';
 
 const router = express.Router();
 
@@ -10,8 +7,8 @@ const router = express.Router();
 // get all Sets
 router.get('/', async (req, res) => {
 	try {
-		const sets = await Workout.find({});
-		res.json(sets);
+		const workouts = await Workout.find({});
+		res.json(workouts);
 	} catch (err) {
 		res.status(500).json({message: err.message});
 	}
@@ -42,7 +39,7 @@ router.post('/', async (req, res) => {
 
 // edit a Set
 router.patch('/:id', getWorkout, (req, res) => {
-	res.send(res.set)
+	res.send(res.workout)
 });
 
 
@@ -63,7 +60,7 @@ async function getWorkout(req, res, next) {
 	try {
 		workout = await Workout.findById(req.params.id);
 		if (workout == null) {
-			return res.status(404).json({ message: "can't find Swimset" })
+			return res.status(404).json({ message: "can't find Workout" })
 		}
 	} catch (err) {
 		return res.status(500).json({ message: err.message })
