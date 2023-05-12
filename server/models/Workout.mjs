@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema, SchemaTypes, model } = mongoose;
 
-const setSchema = new Schema({
+const workoutSchema = new Schema({
 	title: {
 		type: String,
 		required: true,
@@ -15,9 +15,9 @@ const setSchema = new Schema({
 	],
 	description: {
 		type: String,
-		required: false,
+		required: true,
 	},
 });
 
-const Set = model('Set', setSchema);
-export default Set;
+const Workout = model('Workout', workoutSchema);
+export default Workout;
