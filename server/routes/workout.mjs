@@ -4,7 +4,7 @@ import Workout from '../models/Workout.mjs';
 const router = express.Router();
 
 
-// get all Sets
+// get all workout
 router.get('/', async (req, res) => {
 	try {
 		const workouts = await Workout.find({});
@@ -15,13 +15,13 @@ router.get('/', async (req, res) => {
 });
 
 
-// get a Set
+// get a workout
 router.get('/:id', getWorkout, (req, res) => {
 	res.json(res.workout)
 });
 
 
-// create a Set
+// create a workout
 router.post('/', async (req, res) => {
 	let workout = new Workout({
 		title: req.body.title,
@@ -37,13 +37,13 @@ router.post('/', async (req, res) => {
 });
 
 
-// edit a Set
+// edit a workout
 router.patch('/:id', getWorkout, (req, res) => {
 	res.send(res.workout)
 });
 
 
-// delete a Set
+// delete a workout
 router.delete('/:id', async (req, res) => {
 	try {
 		await Workout.deleteOne({ _id: req.params.id })
