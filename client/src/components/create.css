@@ -1,0 +1,19 @@
+.workout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 92vh;
+}
+
+.form-area {
+    border: 1px solid black;
+    width: 80%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    /* height: 100vh; */
+}
+
+.form-group {
+    margin-bottom: 10px;
+}

@@ -1,0 +1,15 @@
+.navbar {
+    background-color: rgb(131, 131, 131);
+    height: 8vh;
+}
+
+.create-workout {
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: white;
+    padding: 3px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
