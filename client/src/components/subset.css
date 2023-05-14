@@ -1,6 +1,7 @@
 .subset {
-    border: 1px solid red;
-    padding-left: 20px;
-    padding-right: 20px;
     margin: 20px;
+}
+
+.subset > .card-header {
+    text-align: left;
 }

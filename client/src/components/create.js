@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import Subset from './subset.js';
+import TextAreaToggle from './textAreaToggle.js';
 import './create.css';
 
 export default function Create() {
@@ -9,6 +10,7 @@ export default function Create() {
 		subsets: [],
 		description: '',
 	});
+
 	const navigate = useNavigate();
 
 	// These methods will update the state properties.
@@ -54,38 +56,33 @@ export default function Create() {
 
 	// This following section will display the form that takes the input from the user.
 	return (
-		<div className="workout">
-			<div className="form-area">
+		<div className="workout-container">
+			<div className="workout card">
 				<form onSubmit={onSubmit}>
-					<div className="form-group">
-						<label htmlFor="title">Workout Title</label>
-						<input
-							type="text"
-							className="form-control"
-							id="name"
-							value={form.title}
-							onChange={(e) => updateForm({ title: e.target.value })}
+					<div className="card-header text-center">
+						<TextAreaToggle
+							defaultText="Untitled Workout"
+							onTextChange={updateForm}
+							formItem="title"
 						/>
-					</div>
-					{subsetList()}
-					<button className="add-subset" type="button" onClick={addSubset}>
-						add subset
-					</button>
-					<div className="form-group">
-						<label htmlFor="description">Description</label>
-						<input
-							type="text"
-							className="form-control"
-							id="description"
-							value={form.description}
-							onChange={(e) => updateForm({ description: e.target.value })}
+						<TextAreaToggle
+							defaultText="Workout Description"
+							onTextChange={updateForm}
+							formItem="description"
 						/>
 					</div>
 
-					<div className="form-group">
+					<div className="card-body">
+						{subsetList()}
+						<button className="add-subset" type="button" onClick={addSubset}>
+							add subset
+						</button>
+					</div>
+
+					<div className="card-footer">
 						<input
 							type="submit"
-							value="Create workout"
+							value="Save workout"
 							className="btn btn-primary"
 						/>
 					</div>

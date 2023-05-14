@@ -5,16 +5,18 @@ import { Route, Routes } from "react-router-dom";
  
 // We import all the components we need in our app
 import Navbar from "./components/navbar";
-import Workouts from "./components/workouts";
+import WorkoutList from "./components/workoutList";
 import Edit from "./components/edit";
 import Create from "./components/create";
+
+import 'bootstrap/dist/css/bootstrap.css';
  
 const App = () => {
  return (
    <div className="app">
      <Navbar />
      <Routes>
-       <Route exact path="/" element={<Workouts />} />
+       <Route exact path="/" element={<WorkoutList />} />
        <Route path="/edit/:id" element={<Edit />} />
        <Route path="/create" element={<Create />} />
      </Routes>
