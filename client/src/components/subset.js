@@ -31,16 +31,16 @@ export default function Subset() {
 
 	// This following section will display the form that takes the input from the user.
 	return (
-		<div className="subset card">
-			<div className="card-header">
+		<div className="subset ">
+			<div className="subset-header">
 				<TextAreaToggle
-					defaultText="Untitled Subset"
+					defaultText="Untitled Subset - Description..."
 					onTextChange={updateForm}
 					formItem="title"
 				/>
 			</div>
 
-			<div className="card-body">
+			<div className="subset-body">
                 <div className="rounds">{roundList()}</div>
 				
 				<button className="add-round" type="button" onClick={addRound}>
@@ -48,13 +48,7 @@ export default function Subset() {
 				</button>
 			</div>
 
-			<div className="card-footer">
-				<TextAreaToggle
-					defaultText="Subset Description"
-					onTextChange={updateForm}
-					formItem="description"
-				/>
-			</div>
+            <hr></hr>
 		</div>
 	);
 }

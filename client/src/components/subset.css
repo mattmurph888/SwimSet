@@ -1,7 +1,7 @@
 .subset {
-    margin: 20px;
+    margin-bottom: 10px;
 }
 
-.subset > .card-header {
+.subset-header {
     text-align: left;
 }

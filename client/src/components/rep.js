@@ -68,11 +68,10 @@ export default function Rep() {
 			</div>
 
 			<div className="intervals">
-				[{intervalsList()}
-				<button className="add-interval" type="button" onClick={addInterval}>
+				[{intervalsList()}]
+        <button className="add-interval" type="button" onClick={addInterval}>
 					+
 				</button>
-				]
 			</div>
 		</div>
 	);

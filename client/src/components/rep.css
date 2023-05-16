@@ -27,13 +27,13 @@
 .intervals {
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
     /* height: 30px; */
 
 }
 
 .add-interval {
-    width: 20px;
-    margin: 2px;
+    border-radius: 5px;
 }
 
 .interval-num {
