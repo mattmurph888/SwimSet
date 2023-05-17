@@ -1,42 +1,13 @@
 .rep {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     width: 100%;
-    margin: 2px;
-}
-
-.rep-description > * {
-    flex-wrap: wrap;
-}
-
-.intervals {
-    display: flex;
     flex-direction: row;
 }
 
-.rep-numbers {
-    display: flex;
-    flex-direction: row;
+.rep > * {
+    margin: 3px;
 }
 
-.by {
-    margin-right: 30px;
-}
-
-.intervals {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    /* height: 30px; */
-
-}
-
-.add-interval {
-    border-radius: 5px;
-}
-
-.interval-num {
-    display: flex;
-    flex-direction: row;
-}
+.rep-description {
+    flex: 2;
+  }

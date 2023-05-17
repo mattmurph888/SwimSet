@@ -18,46 +18,40 @@ export default function Rep() {
 		});
 	}
 
-
 	function addInterval() {
 		updateForm({
 			intervals: [
 				...form.intervals,
-				<TextAreaToggle
-					key={form.intervals.length}
-					defaultText="0:00"
-				/>,
+				<TextAreaToggle key={form.intervals.length} defaultText="0:00" />,
 			],
 		});
 	}
 
 	function intervalsList() {
 		return form.intervals.map((rep, i) => {
-			return <div key={i} className='interval-num'>
-        {rep} 
-        {i===form.intervals.length-1 ? '' : ', '}
-      </div>
+			return (
+				<div key={i} className="interval-num">
+					{rep}
+					{i === form.intervals.length - 1 ? '' : ', '}
+				</div>
+			);
 		});
 	}
 
 	// This following section will display the form that takes the input from the user.
 	return (
 		<div className="rep ">
-			<div className="rep-numbers">
-				<NumberInputToggle
-					onNumChange={updateForm}
-					formItem="num"
-					className="rep-num"
-				/>
-
-				<div className="by">x</div>
-
-				<NumberInputToggle
-					onNumChange={updateForm}
-					formItem="dist"
-					className="rep-dist"
-				/>
-			</div>
+			<NumberInputToggle
+				onNumChange={updateForm}
+				formItem="num"
+				className="rep-num"
+			/>
+			<div className="by">x</div>
+			<NumberInputToggle
+				onNumChange={updateForm}
+				formItem="dist"
+				className="rep-dist"
+			/>
 
 			<div className="rep-description">
 				<TextAreaToggle
@@ -67,12 +61,10 @@ export default function Rep() {
 				/>
 			</div>
 
-			<div className="intervals">
-				[{intervalsList()}]
-        <button className="add-interval" type="button" onClick={addInterval}>
-					+
-				</button>
-			</div>
+			<div className="intervals">[{intervalsList()}]</div>
+			<button className="add-interval" type="button" onClick={addInterval}>
+				+
+			</button>
 		</div>
 	);
 }

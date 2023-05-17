@@ -1,43 +1,45 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 export default function TextAreaToggle(props) {
-  const [isFocused, setIsFocused] = useState(false);
-  const [text, setText] = useState(props.defaultText);
+	const [text, setText] = useState('');
+	const focusedStyle = {
+		border: '1px solid blue',
+		backgroundColor: 'white',
+		outline: 'none',
+	};
+	const unfocusedStyle = {
+		border: 'none',
+		background: 'none',
+		outline: 'none',
+	};
+	const [style, setStyle] = useState(unfocusedStyle);
 
-  const handleFocus = () => {
-    if (text === props.defaultText) {
-        setText('');
-    }
-    setIsFocused(true);
-  };
+	const handleFocus = (event) => {
+		setStyle(focusedStyle);
+    event.target.select();
+	};
 
-  const handleBlur = () => {
-    if (text === '') {
-        setText(props.defaultText);
-    }
-    setIsFocused(false);
-    props.onTextChange({ [props.formItem]: text });
-  };
+	const handleBlur = (event) => {
+		setStyle(unfocusedStyle);
+	};
 
-  const handleTextChange = (event) => {
-    setText(event.target.value);
-  };
+	const handleTextChange = (event) => {
+    event.target.style.height = 'auto';
+    event.target.style.height = `${event.target.scrollHeight}px`;
+		setText(event.target.value);
+		props.onTextChange({ [props.formItem]: text });
+	};
 
-  return (
-    <div>
-      {isFocused ? (
-        <textarea placeholder={props.defaultText} value={text} onChange={handleTextChange} onBlur={handleBlur} />
-      ) : (
-        <div onClick={handleFocus}>{text}</div>
-      )}
-    </div>
-  );
+	return (
+		<textarea
+			placeholder={props.defaultText}
+			value={ text }
+			onChange={handleTextChange}
+			onBlur={handleBlur}
+			onFocus={handleFocus}
+			style={style}
+			className="text-area-toggle"
+      rows = {1}
+		/>
+	);
 }
-
-
-
-
-
-
-
-

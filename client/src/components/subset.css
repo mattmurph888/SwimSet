@@ -3,5 +3,13 @@
 }
 
 .subset-header {
+    width: 100%;
     text-align: left;
+    margin-bottom: 10px;
+}
+
+.subset-header > textarea {
+    width: 100%;
+    line-height: 2em;
+    height: 2em;
 }

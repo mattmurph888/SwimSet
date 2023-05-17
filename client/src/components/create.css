@@ -14,17 +14,33 @@
     margin-bottom: 20px;
 }
 
-.create > .card-header {
+.workout-header {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-#name {
-    width: fit-content;
+.workout-title {
+    width: 100%;
+    text-align: center;
+}
+.workout-title > textarea {
+    width: 50%;
+    text-align: center;
 }
 
-#description {
+.workout-description {
+    width: 100%;
+    text-align: center;
+}
+
+.workout-description > textarea {
     width: 50%;
+    text-align: center;
+}
+
+.workout > .card-body {
+    display: flex;
 }

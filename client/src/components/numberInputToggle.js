@@ -1,46 +1,52 @@
 import React, { useState } from 'react';
+
 import './numberInputToggle.css';
 
-export default function NumberInputToggle(props) {
-	const [isEditing, setIsEditing] = useState(false);
-	const [number, setNumber] = useState(1);
+export default function NumberAreaToggle(props) {
+	const [number, setNumber] = useState('');
+	const focusedStyle = {
+		border: '1px solid blue',
+		backgroundColor: 'white',
+		outline: 'none',
+	};
+	const unfocusedStyle = {
+		border: 'none',
+		background: 'none',
+		outline: 'none',
+	};
+	const [style, setStyle] = useState(unfocusedStyle);
 
-	const handleFocus = () => {
-		setIsEditing(true);
+	const handleFocus = (event) => {
+		setStyle(focusedStyle);
+		event.target.select();
 	};
 
-	const handleBlur = () => {
-		if (number < 1) {
+	const handleBlur = (event) => {
+		setStyle(unfocusedStyle);
+	};
+
+	const handleNumberChange = (event) => {
+		if (event.target.value === '') {
+			setNumber('')
+		} else if (event.target.value < 1) {
 			setNumber(1);
-		} 
-		setIsEditing(false);
+		} else {
+			setNumber(event.target.value);
+		}
 		props.onNumChange({ [props.formItem]: number });
 	};
 
-	const handleChange = (event) => {
-		const newNumber = parseInt(event.target.value);
-		if (newNumber > 0) {
-			setNumber(newNumber);
-		} else {
-			setNumber('');
-		}
-	};
-
-	if (isEditing) {
-		return (
-			<input
-				type="number"
-				value={number}
-				onChange={handleChange}
-				onBlur={handleBlur}
-				className="num-input"
-			/>
-		);
-	} else {
-		return (
-			<div className="num" onClick={handleFocus}>
-				{number}
-			</div>
-		);
-	}
+	return (
+		<input
+			type='number'
+			placeholder={1}
+			value={number}
+			onChange={handleNumberChange}
+			onBlur={handleBlur}
+			onFocus={handleFocus}
+			style={style}
+			className="num-input"
+			rows={1}
+		/>
+	);
 }

@@ -59,17 +59,21 @@ export default function Create() {
 		<div className="workout-container">
 			<div className="workout card">
 				<form onSubmit={onSubmit}>
-					<div className="card-header text-center">
-						<TextAreaToggle
-							defaultText="Untitled Workout"
-							onTextChange={updateForm}
-							formItem="title"
-						/>
-						<TextAreaToggle
-							defaultText="Workout Description"
-							onTextChange={updateForm}
-							formItem="description"
-						/>
+					<div className="card-header workout-header">
+						<div className="workout-title">
+							<TextAreaToggle
+								defaultText="Untitled Workout"
+								onTextChange={updateForm}
+								formItem="title"
+							/>
+						</div>
+						<div className="workout-description">
+							<TextAreaToggle
+								defaultText="Workout Description"
+								onTextChange={updateForm}
+								formItem="description"
+							/>
+						</div>
 					</div>
 
 					<div className="card-body">
