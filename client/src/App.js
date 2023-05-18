@@ -10,6 +10,7 @@ import Edit from "./components/edit";
 import Create from "./components/create";
 
 import 'bootstrap/dist/css/bootstrap.css';
+import './App.css';
  
 const App = () => {
  return (

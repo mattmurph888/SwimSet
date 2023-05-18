@@ -16,7 +16,7 @@ export default function TextAreaToggle(props) {
 
 	const handleFocus = (event) => {
 		setStyle(focusedStyle);
-    event.target.select();
+		event.target.select();
 	};
 
 	const handleBlur = (event) => {
@@ -24,8 +24,9 @@ export default function TextAreaToggle(props) {
 	};
 
 	const handleTextChange = (event) => {
-    event.target.style.height = 'auto';
-    event.target.style.height = `${event.target.scrollHeight}px`;
+		console.log(event.target.scrollHeight);
+		event.target.style.height = 'auto';
+		event.target.style.height = `${event.target.scrollHeight + 2}px`;
 		setText(event.target.value);
 		props.onTextChange({ [props.formItem]: text });
 	};
@@ -33,13 +34,13 @@ export default function TextAreaToggle(props) {
 	return (
 		<textarea
 			placeholder={props.defaultText}
-			value={ text }
+			value={text}
 			onChange={handleTextChange}
 			onBlur={handleBlur}
 			onFocus={handleFocus}
 			style={style}
-			className="text-area-toggle"
-      rows = {1}
+			className="textarea-toggle"
+			rows={1}
 		/>
 	);
 }

@@ -34,17 +34,16 @@ export default function Round() {
 	return (
 		<div className="round card">
 			<div className="card-body">
-				<NumberInputToggle 
-                    onNumChange={updateForm}
-                    formItem="num"
-                    className="round-num"
-                />
+				<div className="num-x">
+					<div className="round-num">
+						<NumberInputToggle onNumChange={updateForm} formItem="num" />
+					</div>
 
-                <div>x</div>
+					<div className="x">x</div>
+				</div>
 
-				<div className="reps">
-					{repList()}
-
+				<div className="reps-area">
+					<div className="reps">{repList()}</div>
 					<button className="add-rep" type="button" onClick={addRep}>
 						add rep
 					</button>
