@@ -35,9 +35,11 @@ export default function Round() {
 		<div className="round card">
 			<div className="card-body">
 				<div className="num-x">
-					<div className="round-num">
-						<NumberInputToggle onNumChange={updateForm} formItem="num" />
-					</div>
+					<NumberInputToggle
+						className="round-num"
+						onNumChange={updateForm}
+						formItem="num"
+					/>
 
 					<div className="x">x</div>
 				</div>
