@@ -1,75 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import TextAreaToggle from './textAreaToggle.js';
 import NumberInputToggle from './numberInputToggle.js';
+import NumIntervalsContext from './NumIntervalsContext.js';
 import './rep.css';
 
 export default function Rep() {
-	const [form, setForm] = useState({
-		num: 1,
-		dist: 25,
-		description: '',
-		intervals: [],
-	});
+	const [num, setNum] = useState(1);
+	const [dist, setDist] = useState(25);
+	const [intervals, setIntervals] = useState([]);
+	const [description, setDescription] = useState('');
+	const numIntervals = useContext(NumIntervalsContext);
 
-	// These methods will update the state properties.
-	function updateForm(value) {
-		return setForm((prev) => {
-			return { ...prev, ...value };
+	useEffect(() => {
+		setIntervals(prev => {
+			let tempIntervals = [];
+			if (prev.length < numIntervals) {
+				for (let i = 0; i < numIntervals-prev.length; i++) {
+					tempIntervals.push(
+						<TextAreaToggle
+							className="interval"
+							key={prev.length + i}
+							defaultText="00:00"
+						/>
+					);
+				}
+				return [...prev, ...tempIntervals]
+			} else {
+				return prev.slice(0,numIntervals);
+			}
 		});
-	}
-
-	function addInterval() {
-		updateForm({
-			intervals: [
-				...form.intervals,
-				<TextAreaToggle
-					className="interval"
-					key={form.intervals.length}
-					defaultText="00:00"
-				/>,
-			],
-		});
-	}
+	}, [numIntervals]);
 
 	function intervalsList() {
-		return form.intervals.map((interval, i) => {
+		return intervals.map((interval, i) => {
 			return (
 				<div key={i} className="interval-num">
 					{interval}
-					{i === form.intervals.length - 1 ? '' : ', '}
+					{i === intervals.length - 1 ? '' : ', '}
 				</div>
 			);
 		});
 	}
 
-	// This following section will display the form that takes the input from the user.
 	return (
 		<div className="rep">
 			<NumberInputToggle
 				className="rep-item num-reps"
-				onNumChange={updateForm}
-				formItem="num"
+				number={num}
+				onNumChange={setNum}
 			/>
 
 			<div className="rep-item by">x</div>
 
 			<NumberInputToggle
 				className="rep-item dist"
-				onNumChange={updateForm}
-				formItem="dist"
+				number={dist}
+				onNumChange={setDist}
 			/>
 
 			<TextAreaToggle
 				className="rep-item rep-description"
 				defaultText="Rep Description"
-				onTextChange={updateForm}
+				onTextChange={setDescription}
 			/>
 
 			<div className="rep-item at">@</div>
 
 			<div className="rep-item intervals">
 				{intervalsList()}
-				<button className="add-interval" type="button" onClick={addInterval}>
+				<button className="add-interval" type="button">
 					+
 				</button>
 			</div>

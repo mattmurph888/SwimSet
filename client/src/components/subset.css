@@ -2,12 +2,32 @@
     margin-bottom: 10px;
 }
 
-.subset-header {
+.subset > .card-header {
     width: 100%;
-    text-align: left;
-    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
 }
 
-.subset-header > textarea {
-    width: 100%;
+.subset-header-item {
+    height: 28px;
+}
+
+.subset-header-title {
+    width: 50%;
+    text-align: left;
+}
+
+.num-intervals-label {
+    width: 15%;
+    margin-left: auto;
+    text-align: right;
+    padding-right: 3px;
+}
+
+.num-intervals {
+    width: 8%;
+}
+
+.num-intervals > input {
+    text-align: center;
 }

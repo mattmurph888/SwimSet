@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-export default function NumberAreaToggle(props) {
-	const [number, setNumber] = useState('');
+export default function NumberAreaToggle({ number, onNumChange, className }) {
 	const focusedStyle = {
 		border: '1px solid blue',
 		backgroundColor: 'white',
@@ -24,19 +23,14 @@ export default function NumberAreaToggle(props) {
 	};
 
 	const handleBlur = (event) => {
+		if (!event.target.value) {
+			onNumChange(1);
+		}
 		setStyle(unfocusedStyle);
 	};
 
 	const handleNumberChange = (event) => {
-		// console.log(event.target.clientHeight);
-		if (event.target.value === '') {
-			setNumber('');
-		} else if (event.target.value < 1) {
-			setNumber(1);
-		} else {
-			setNumber(event.target.value);
-		}
-		props.onNumChange({ [props.formItem]: number });
+		onNumChange(event.target.value);
 	};
 
 	function handleKeyDown(event) {
@@ -46,10 +40,9 @@ export default function NumberAreaToggle(props) {
 	}
 
 	return (
-		<div className={`num-input-container ${props.className}`}>
+		<div className={`num-input-container ${className}`}>
 			<input
 				type="number"
-				placeholder={1}
 				value={number}
 				onChange={handleNumberChange}
 				onBlur={handleBlur}
@@ -57,6 +50,7 @@ export default function NumberAreaToggle(props) {
 				style={style}
 				rows={1}
 				onKeyDown={handleKeyDown}
+				min={1}
 			/>
 		</div>
 	);
