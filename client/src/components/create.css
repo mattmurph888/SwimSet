@@ -1,46 +1,47 @@
 .workout-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     width: 100%;
+    height: var(--body-height);
+    background-color: rgb(220, 220, 220);
+
 }
 
-.workout {
+.edit-container {
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex: auto;
+}
+
+.text {
+    flex: auto;
+    margin: 15px;
+    padding: 15px;
     border: 1px solid black;
-    width: 95%;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    border-radius: 5px;
 }
 
-.workout-header {
-    width: 100%;
+.line-stats {
+    width: 25%;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 15px;
+    margin-left: 0px;
+    padding: 15px;
+    background-color: white;
+}
+
+.workout-stats {
+    height: 25%;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 15px;
+    margin-top: 0px;
+    background-color: white;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-}
-
-.workout-title {
-    width: 100%;
-    text-align: center;
-}
-.workout-title > textarea {
-    width: 50%;
-    text-align: center;
-}
-
-.workout-description {
-    width: 100%;
-    text-align: center;
-}
-
-.workout-description > textarea {
-    width: 50%;
-    text-align: center;
-}
-
-.workout > .card-body {
-    display: flex;
+    justify-content: space-around;
 }
