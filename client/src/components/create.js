@@ -14,19 +14,31 @@ export default function Create() {
 		console.log(nestedArray);
 	}
 
+	function parseText(text) {
+		// if it starts with letters/symbols it is a title and should be ignored 
+		// if it starts with numbes
+			// number x number indicates a rep
+				// reps x distance
+				// freestyle drill 
+				// @ 1:10 
+				// also need to calculate distance and time
+			// number x letters indicates a round
+				// need to mulitply num rounds by distance and intervals
+	}
+
 	function createNestedArray(input) {
 		const lines = input.split('\n');
 		const nestedArray = [];
 
+		// for each line check if there is a tab to start and append an array if there is
 		lines.forEach((line) => {
 			const tabsCount = countTabsAtStart(line);
-			console.log(`tab count: ${tabsCount}`);
 			const lineContent = line.trim(); // Remove leading/trailing spaces
 
 			let currentArray = nestedArray;
 			for (let i = 0; i < tabsCount; i++) {
 				if (!Array.isArray(currentArray[currentArray.length - 1])) {
-					currentArray[currentArray.length - 1] = [];
+					currentArray.push([]);
 				}
 				currentArray = currentArray[currentArray.length - 1];
 			}
@@ -49,6 +61,8 @@ export default function Create() {
 	}
 
 	function handleKeyDown(event) {
+		// prevent tab key from unfocusing the textbox
+		// eventually maybe add some custom tab utility
 		if (event.key === 'Tab') {
 			event.preventDefault();
 			const textarea = event.target;
