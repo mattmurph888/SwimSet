@@ -5,14 +5,16 @@ import './create.css';
 export default function Create() {
 	const [text, setText] = useState('');
 	const [distance, setDistance] = useState(0);
-	const [time, setTime] = useState(0);
+	const [times, setTimes] = useState([]);
 
 	function handleTextChange(event) {
 		let curText = event.target.value;
 		let nestedArray = createNestedArray(curText);
-		let cur_dist, cur_time = parseTextArray(nestedArray);
+		let parsed_data = parseTextArray(nestedArray);
+		let cur_dist = parsed_data[0];
+		let cur_times = parsed_data[1];
 		setDistance(cur_dist)
-		setTime(cur_time)
+		setTimes(...cur_times)
 		setText(curText);
 		// console.log(nestedArray);
 	}
@@ -21,7 +23,7 @@ export default function Create() {
 
 		// I'll need to split up this function into helper functions eventually
 		let cur_distance = 0;
-		let cur_time = 0;
+		let cur_times = [];
 		let cur_multiplier = 1;
 
 		console.log('PARSING TEXT')
@@ -37,7 +39,7 @@ export default function Create() {
 			// no interval check
 			if (Array.isArray(line)) {
 				console.log('this is a subset array')
-				cur_distance += cur_multiplier * parseTextArray(line);
+				cur_distance += cur_multiplier * parseTextArray(line); //this no longer works 
 			}
 			// number x number --> increment distance
 			// yes interval check
@@ -47,6 +49,7 @@ export default function Create() {
 				let reps = parseInt(stripped.match(/^\d+/)[0]);
 				let dist = parseInt(stripped.match(/\d+$/)[0]);
 				cur_distance += reps * dist;
+				console.log(getTimes(line));
 			}
 			// number x letters, number rounds letters, number x, number rounds --> save mulitplier for child round
 			// no interval check
@@ -64,17 +67,42 @@ export default function Create() {
 			else if (numbers_letters.test(line)) {
 				console.log('numbers letters')
 				cur_distance += parseInt(line.match(/^\d+/)[0])
+				let new_times = getTimes(line);
+				cur_times = updateCurTimes(cur_times, new_times);
 			}
 			// letters --> just a title, do nothing
 			else {
 				console.log('letters')
 			}
 		});
-		return [cur_distance, cur_time];
+		return [cur_distance, cur_times];
 	}
 
-	function getTime(line) {
-		
+	function updateCurTimes(cur_times, new_times) {
+		if (cur_times.length === new_times.length) {
+			for (let i = 0; i < cur_times.length; i++) {
+				cur_times[i] += new_times[i]
+			}
+		}
+	}
+
+	function getTimes(line) {
+		let times = [];
+		const at = /@\s*(\d+:\d\d\s*)+(,\s*\d+:\d\d\s*)*$/;
+		if (at.test(line)) {
+			console.log(`we have a well formatted interval`);
+			let intervals = line.match(/\d+:\d\d/g);
+			console.log(intervals);
+			intervals.forEach((interval) => {
+				let interval_arr = interval.match(/\d+/g);
+				console.log(interval_arr);
+				let minutes = parseInt(interval_arr[0]);
+				let seconds = parseInt(interval_arr[1]);
+				let total_seconds = (minutes * 60) + seconds;
+				times.push(total_seconds)
+			});
+		}
+		return times
 	}
 
 	function createNestedArray(input) {
@@ -146,7 +174,7 @@ export default function Create() {
 				</div>
 				<div className="time-container">
 					<div className="time-label">time:</div>
-					<div className="time">{time}</div>
+					<div className="time">{times}</div>
 				</div>
 			</div>
 		</div>
