@@ -10,20 +10,71 @@ export default function Create() {
 	function handleTextChange(event) {
 		let curText = event.target.value;
 		let nestedArray = createNestedArray(curText);
+		let cur_dist, cur_time = parseTextArray(nestedArray);
+		setDistance(cur_dist)
+		setTime(cur_time)
 		setText(curText);
-		console.log(nestedArray);
+		// console.log(nestedArray);
 	}
 
-	function parseText(text) {
-		// if it starts with letters/symbols it is a title and should be ignored 
-		// if it starts with numbes
-			// number x number indicates a rep
-				// reps x distance
-				// freestyle drill 
-				// @ 1:10 
-				// also need to calculate distance and time
-			// number x letters indicates a round
-				// need to mulitply num rounds by distance and intervals
+	function parseTextArray(text_arr) {
+
+		// I'll need to split up this function into helper functions eventually
+		let cur_distance = 0;
+		let cur_time = 0;
+		let cur_multiplier = 1;
+
+		console.log('PARSING TEXT')
+		const numbers_x_numbers = /^\d+\s*(x)\s*\d+/i;
+		const numbers_x_letters = /^\d+\s*(x)\s+\w+/i;
+		const numbers_rounds_letters = /^\d+\s*(rounds)\s+\w+/i;
+		const numbers_x = /^\d+\s*(x)\s*$/i;
+		const numbers_rounds = /^\d+\s*(rounds)\s*$/i;
+		const numbers_letters = /^\d+\w*/i;
+
+		text_arr.forEach((line) => {
+			// if subset array --> prev round mulitplier * parseTextArray(subset array)
+			// no interval check
+			if (Array.isArray(line)) {
+				console.log('this is a subset array')
+				cur_distance += cur_multiplier * parseTextArray(line);
+			}
+			// number x number --> increment distance
+			// yes interval check
+			else if (numbers_x_numbers.test(line)) {
+				console.log('number x number')
+				let stripped = line.match(numbers_x_numbers)[0];
+				let reps = parseInt(stripped.match(/^\d+/)[0]);
+				let dist = parseInt(stripped.match(/\d+$/)[0]);
+				cur_distance += reps * dist;
+			}
+			// number x letters, number rounds letters, number x, number rounds --> save mulitplier for child round
+			// no interval check
+			else if (
+				numbers_x_letters.test(line) || 
+				numbers_rounds_letters.test(line) ||
+				numbers_x.test(line) ||
+				numbers_rounds.test(line)
+				) {
+				console.log('round mulitplier')
+				cur_multiplier = parseInt(line.match(/^\d+/)[0]);
+			}
+			// number letters --> increment distance
+			// yes interval check
+			else if (numbers_letters.test(line)) {
+				console.log('numbers letters')
+				cur_distance += parseInt(line.match(/^\d+/)[0])
+			}
+			// letters --> just a title, do nothing
+			else {
+				console.log('letters')
+			}
+		});
+		return [cur_distance, cur_time];
+	}
+
+	function getTime(line) {
+		
 	}
 
 	function createNestedArray(input) {
