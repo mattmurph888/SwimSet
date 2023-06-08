@@ -13,20 +13,19 @@ export default function Create() {
 		let parsed_data = parseTextArray(nestedArray);
 		let cur_dist = parsed_data[0];
 		let cur_times = parsed_data[1];
-		setDistance(cur_dist)
-		setTimes(...cur_times)
+		setDistance(cur_dist);
+		setTimes(cur_times);
 		setText(curText);
 		// console.log(nestedArray);
 	}
 
 	function parseTextArray(text_arr) {
-
 		// I'll need to split up this function into helper functions eventually
 		let cur_distance = 0;
 		let cur_times = [];
 		let cur_multiplier = 1;
 
-		console.log('PARSING TEXT')
+		console.log('PARSING TEXT');
 		const numbers_x_numbers = /^\d+\s*(x)\s*\d+/i;
 		const numbers_x_letters = /^\d+\s*(x)\s+\w+/i;
 		const numbers_rounds_letters = /^\d+\s*(rounds)\s+\w+/i;
@@ -38,71 +37,113 @@ export default function Create() {
 			// if subset array --> prev round mulitplier * parseTextArray(subset array)
 			// no interval check
 			if (Array.isArray(line)) {
-				console.log('this is a subset array')
-				cur_distance += cur_multiplier * parseTextArray(line); //this no longer works 
+				let dist_time_data = parseTextArray(line);
+				cur_distance += cur_multiplier * dist_time_data[0]; //this no longer works
+				let new_times = dist_time_data[1];
+				if (new_times.length > 0) {
+					for (let i = 0; i < new_times.length; i++) {
+						new_times[i] *= cur_multiplier;
+					}
+					cur_times = updateCurTimes(cur_times, new_times);
+				}
 			}
 			// number x number --> increment distance
 			// yes interval check
 			else if (numbers_x_numbers.test(line)) {
-				console.log('number x number')
 				let stripped = line.match(numbers_x_numbers)[0];
 				let reps = parseInt(stripped.match(/^\d+/)[0]);
 				let dist = parseInt(stripped.match(/\d+$/)[0]);
 				cur_distance += reps * dist;
-				console.log(getTimes(line));
+				let new_times = getTimes(line);
+				if (new_times.length > 0) {
+					for (let i = 0; i < new_times.length; i++) {
+						new_times[i] *= reps;
+					}
+					cur_times = updateCurTimes(cur_times, new_times);
+				}
 			}
 			// number x letters, number rounds letters, number x, number rounds --> save mulitplier for child round
 			// no interval check
 			else if (
-				numbers_x_letters.test(line) || 
+				numbers_x_letters.test(line) ||
 				numbers_rounds_letters.test(line) ||
 				numbers_x.test(line) ||
 				numbers_rounds.test(line)
-				) {
-				console.log('round mulitplier')
+			) {
 				cur_multiplier = parseInt(line.match(/^\d+/)[0]);
 			}
 			// number letters --> increment distance
 			// yes interval check
 			else if (numbers_letters.test(line)) {
-				console.log('numbers letters')
-				cur_distance += parseInt(line.match(/^\d+/)[0])
+				cur_distance += parseInt(line.match(/^\d+/)[0]);
 				let new_times = getTimes(line);
-				cur_times = updateCurTimes(cur_times, new_times);
+				if (new_times.length > 0) {
+					cur_times = updateCurTimes(cur_times, new_times);
+				}
 			}
 			// letters --> just a title, do nothing
 			else {
-				console.log('letters')
+				// console.log('letters')
 			}
 		});
 		return [cur_distance, cur_times];
 	}
 
-	function updateCurTimes(cur_times, new_times) {
-		if (cur_times.length === new_times.length) {
+	function updateCurTimes(temp_cur_times, temp_new_times) {
+		let cur_times = [...temp_cur_times];
+		let new_times = [...temp_new_times]
+		console.log(cur_times, new_times);
+		// if you are adding the first intervals
+		if (cur_times.length === 0) {
+			cur_times = new_times;
+		}
+		// if you are adding the same number of intervals to the already existing intervals
+		else if (cur_times.length === new_times.length) {
 			for (let i = 0; i < cur_times.length; i++) {
-				cur_times[i] += new_times[i]
+				cur_times[i] += new_times[i];
 			}
 		}
+		// if you are adding more intervals than already exist
+		else if (cur_times.length < new_times.length) {
+			for (let i = 0; i < new_times.length; i++) {
+				if (i < cur_times.length) {
+					cur_times[i] += new_times[i];
+				} else {
+					cur_times.push(temp_cur_times[temp_cur_times.length-1] + new_times[i]);
+				}
+			}
+		}
+		// if you are adding fewer intervals than already exist
+		else {
+			for (let i = 0; i < cur_times.length; i++) {
+				if (i < new_times.length) {
+					cur_times[i] += new_times[i];
+				} else {
+					cur_times[i] += new_times[new_times.length-1];
+				}
+			}
+		}
+		console.log(cur_times);
+		return cur_times;
 	}
 
 	function getTimes(line) {
 		let times = [];
-		const at = /@\s*(\d+:\d\d\s*)+(,\s*\d+:\d\d\s*)*$/;
+		const at = /@\s*(\d*:\d\d\s*)+(,\s*\d*:\d\d\s*)*$/;
 		if (at.test(line)) {
 			console.log(`we have a well formatted interval`);
-			let intervals = line.match(/\d+:\d\d/g);
+			let intervals = line.match(/\d*:\d\d/g);
 			console.log(intervals);
 			intervals.forEach((interval) => {
 				let interval_arr = interval.match(/\d+/g);
 				console.log(interval_arr);
 				let minutes = parseInt(interval_arr[0]);
 				let seconds = parseInt(interval_arr[1]);
-				let total_seconds = (minutes * 60) + seconds;
-				times.push(total_seconds)
+				let total_seconds = minutes * 60 + seconds;
+				times.push(total_seconds);
 			});
 		}
-		return times
+		return times;
 	}
 
 	function createNestedArray(input) {
