@@ -15,7 +15,7 @@ export default function Navbar() {
 					<NavLink className="navbar-brand logo" to="/">
 						SwimSet
 					</NavLink>
-                    <div className="navbar-nav">
+                    <div className="navbar-item">
                         <NavLink className="nav-link create-workout" to="/create">
                             Create Workout
                         </NavLink>

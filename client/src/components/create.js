@@ -91,8 +91,7 @@ export default function Create() {
 
 	function updateCurTimes(temp_cur_times, temp_new_times) {
 		let cur_times = [...temp_cur_times];
-		let new_times = [...temp_new_times]
-		console.log(cur_times, new_times);
+		let new_times = [...temp_new_times];
 		// if you are adding the first intervals
 		if (cur_times.length === 0) {
 			cur_times = new_times;
@@ -109,7 +108,9 @@ export default function Create() {
 				if (i < cur_times.length) {
 					cur_times[i] += new_times[i];
 				} else {
-					cur_times.push(temp_cur_times[temp_cur_times.length-1] + new_times[i]);
+					cur_times.push(
+						temp_cur_times[temp_cur_times.length - 1] + new_times[i]
+					);
 				}
 			}
 		}
@@ -119,28 +120,43 @@ export default function Create() {
 				if (i < new_times.length) {
 					cur_times[i] += new_times[i];
 				} else {
-					cur_times[i] += new_times[new_times.length-1];
+					cur_times[i] += new_times[new_times.length - 1];
 				}
 			}
 		}
-		console.log(cur_times);
+
 		return cur_times;
+	}
+
+	function convertSecondsToMinutesAndSeconds(seconds) {
+		const minutes = Math.floor(seconds / 60);
+		const remainingSeconds = seconds % 60;
+		const formattedMinutes = String(minutes);
+		const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+		return `${formattedMinutes}:${formattedSeconds}`;
 	}
 
 	function getTimes(line) {
 		let times = [];
 		const at = /@\s*(\d*:\d\d\s*)+(,\s*\d*:\d\d\s*)*$/;
+		// if the line has the correct format for an interval
 		if (at.test(line)) {
 			console.log(`we have a well formatted interval`);
-			let intervals = line.match(/\d*:\d\d/g);
+			let intervals = line.match(/\d*:\d\d/g); // get all the intervals that have the correct format
 			console.log(intervals);
 			intervals.forEach((interval) => {
-				let interval_arr = interval.match(/\d+/g);
-				console.log(interval_arr);
-				let minutes = parseInt(interval_arr[0]);
-				let seconds = parseInt(interval_arr[1]);
-				let total_seconds = minutes * 60 + seconds;
-				times.push(total_seconds);
+				let interval_arr = interval.match(/\d+/g); // separate the interval into minutes and seconds arr
+				if (interval_arr.length > 1) {
+					// if there are minutes and seconds
+					let minutes = parseInt(interval_arr[0]);
+					let seconds = parseInt(interval_arr[1]);
+					let total_seconds = minutes * 60 + seconds;
+					times.push(total_seconds);
+				} else {
+					// else there are only seconds
+					let seconds = parseInt(interval_arr[0]);
+					times.push(seconds);
+				}
 			});
 		}
 		return times;
@@ -206,18 +222,26 @@ export default function Create() {
 					onChange={handleTextChange}
 					onKeyDown={handleKeyDown}
 				/>
-				<div className="line-stats"></div>
-			</div>
-			<div className="workout-stats">
-				<div className="distance-container">
-					<div className="distance-label">distance:</div>
-					<div className="distance">{distance}</div>
+				<div className="workout-stats">
+					<div className="distance-container">
+						<div className="distance-label">distance:</div>
+						<div className="distance">{distance}</div>
+					</div>
+					<div className="time-container">
+						<div className="time-label">time:</div>
+						<div className="time">{times.map((time, index) => {
+							if (index === times.length-1) {
+								return convertSecondsToMinutesAndSeconds(time);
+							} else {
+								return convertSecondsToMinutesAndSeconds(time) + ", ";
+							}
+							
+						})}</div>
+					</div>
 				</div>
-				<div className="time-container">
-					<div className="time-label">time:</div>
-					<div className="time">{times}</div>
-				</div>
 			</div>
+
+			<div className="line-stats"></div>
 		</div>
 	);
 }
