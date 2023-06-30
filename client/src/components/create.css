@@ -45,3 +45,10 @@
     align-items: center;
     justify-content: space-around;
 }
+
+.time-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

@@ -128,12 +128,36 @@ export default function Create() {
 		return cur_times;
 	}
 
-	function convertSecondsToMinutesAndSeconds(seconds) {
-		const minutes = Math.floor(seconds / 60);
+	function formatTime(seconds) {
+		// return a time string in the format of hh:mm:ss
+		// makes sure there are no leading 0s
+		const hours = Math.floor(seconds / 3600);
+		const minutes = Math.floor((seconds % 3600) / 60);
 		const remainingSeconds = seconds % 60;
-		const formattedMinutes = String(minutes);
-		const formattedSeconds = String(remainingSeconds).padStart(2, '0');
-		return `${formattedMinutes}:${formattedSeconds}`;
+
+		const timeArray = [];
+
+		// hours have no leading 0s, can be any length, and never shown if 0
+		if (hours > 0) {
+			timeArray.push(hours.toString());
+		}
+
+		// minutes show leading 0s if hours > 0 otherwise don't show leading 0s, max length of 2, if hours == 0 leading 0s are stripped at the return 
+		if (minutes < 10) {
+			timeArray.push('0' + minutes.toString());
+		} else {
+			timeArray.push(minutes.toString());
+		}
+
+		// seconds always show leading 0s, the length is always 2
+		if (remainingSeconds < 10) {
+			timeArray.push('0' + remainingSeconds.toString());
+		} else {
+			timeArray.push(remainingSeconds.toString());
+		}
+
+		// return the joined array that has been stripped of any leading 0s
+		return timeArray.join(':').replace(/^0+/, '');
 	}
 
 	function getTimes(line) {
@@ -229,18 +253,27 @@ export default function Create() {
 					</div>
 					<div className="time-container">
 						<div className="time-label">time:</div>
-						<div className="time">{times.map((time, index) => {
-							if (index === times.length-1) {
-								return convertSecondsToMinutesAndSeconds(time);
-							} else {
-								return convertSecondsToMinutesAndSeconds(time) + ", ";
-							}
-							
-						})}</div>
+						<div className="time">
+							{times.map((time, index) => {
+								if (index === times.length - 1) {
+									return formatTime(time);
+								} else {
+									return formatTime(time) + ', ';
+								}
+							})}
+						</div>
 					</div>
 				</div>
 			</div>
 
+			{/**
+			 * still trying to decide what this next area will be
+			 * could be tool tips
+			 * could show stats for currently highlighted area
+			 * could show saved subsets for quick insertion
+			 * leaning towards tool tips so people know how to use it
+			 * 		-> maybe make it collapsible
+			*/}
 			<div className="line-stats"></div>
 		</div>
 	);
